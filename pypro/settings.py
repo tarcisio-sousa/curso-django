@@ -33,6 +33,8 @@ DEBUG = config('DEBUG', cast=bool)
 
 ALLOWED_HOSTS = config('ALLOWED_HOSTS', cast=Csv())
 
+AUTH_USER_MODEL = 'base.User'
+
 
 # Application definition
 
@@ -156,7 +158,7 @@ if AWS_ACCESS_KEY_ID:
     STATIC_S3_PATH = 'static'
     STATIC_ROOT = f'/{STATIC_S3_PATH}/'
     STATIC_URL = f'//s3.amazonaws.com/{AWS_STORAGE_BUCKET_NAME}/{STATIC_S3_PATH}/'
-    ADMIN_MEDIA_PREFIZ = STATIC_URL + 'admin/'
+    ADMIN_MEDIA_PREFIX = STATIC_URL + 'admin/'
 
     # Upload Media Folder
     DEFAULT_FILE_STORAGE = 's3_folder_storage.s3.DefaultStorage'
