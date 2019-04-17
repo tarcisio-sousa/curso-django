@@ -16,7 +16,8 @@ import os
 import dj_database_url
 
 from functools import partial
-
+import sentry_sdk
+from sentry_sdk.integrations.django import DjangoIntegration
 from decouple import config, Csv
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -145,7 +146,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'mediafiles')
 
 COLLECTFAST_ENABLED = False
 
-AWS_ACCESS_KEY_ID = config('AWS_ACCESS_KEY_ID', default='')
+AWS_ACCESS_KEY_ID = config('AWS_ACCESS_KEY_ID', default=None)
 
 # STORAGE CONFIGURATION IN S3 AWS
 
@@ -177,3 +178,8 @@ if AWS_ACCESS_KEY_ID:
 
     INSTALLED_APPS.append('s3_folder_storage')
     INSTALLED_APPS.append('storages')
+
+
+SENTRY_DSN = config('SENTRY_DSN', default=None)
+if SENTRY_DSN:
+    sentry_sdk.init(dsn=SENTRY_DSN, integrations=[DjangoIntegration()])
